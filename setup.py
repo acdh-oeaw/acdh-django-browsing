@@ -10,7 +10,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='acdh-django-browsing',
-    version='0.1.0',
+    version='0.1.1',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
@@ -30,12 +30,12 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     install_requires=[
-        'Django>=3.1',
-        'django-autocomplete-light>=3.3.5,'
-        'django-crispy-forms>=1.7.2',
-        'django-filter>=2.1.0',
+        'acdh-django-charts==0.5.3',
+        'django-autocomplete-light>=3.8.1',
+        'django-crispy-forms>=1.10.0',
+        'django-filter>=2.4.0',
         'django-super-deduper>=0.1.2',
-        'django-tables2>=2.0.6',
+        'django-tables2>=2.3.3',
         'pandas>=1.1.0',
     ],
 )
