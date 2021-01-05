@@ -4,3 +4,4 @@ django-crispy-forms>=1.7.2
 django-filter>=2.1.0
 django-super-deduper>=0.1.2
 django-tables2>=2.0.6
+pandas>=1.1.0
