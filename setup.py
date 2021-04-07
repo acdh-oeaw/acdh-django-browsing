@@ -37,5 +37,6 @@ setup(
         'django-super-deduper>=0.1.2',
         'django-tables2>=2.3.3',
         'pandas>=1.1.0',
+        'tablib>=3.0.0',
     ],
 )
