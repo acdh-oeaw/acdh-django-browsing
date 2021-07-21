@@ -23,9 +23,6 @@
     });
     });
     </script>
-    <style>
-
-    </style>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
@@ -34,12 +31,9 @@
                         <h3 style="margin-bottom:15px;">
                              Browse {% class_definition %} {% block list_title %}{% endblock %}
                         </h3>
-                        {% if get_arche_dump %}
-                            <a class ="btn btn-outline-secondary"  href="{{ get_arche_dump}}{% querystring %}">Dump as RDF</a>
-                        {% endif %}
                         {% if user.is_authenticated %}
                             {% if create_view_link  %}
-                                <a class ="btn btn-outline-secondary"  href="{{ create_view_link }}">Create new {{class_name}}</a>
+                                <a class ="btn btn-outline-secondary"  href="{{ create_view_link }}">Create new {{ class_name }}</a>
                             {% endif %}
                         {% endif %}
                         {% block customView %}{% endblock %}
@@ -54,46 +48,8 @@
                             <br/>
                             {% crispy filter.form filter.form.helper %}
                         </form>
-                        {% block reset_button %}
-                            <a class ="btn btn-outline-secondary"  href=".">Reset search</a>
-                            {% if vis_list %}
-                                <div class="btn-group">
-                                    <button class="btn btn-default dropdown-toggle dropdown-custom" type="button" id="dropdownMenuVis" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Visualize <span class="caret"></span>
-                                    </button>
-                                    <div class="dropdown-menu" role="menu">
-                                        {% for x in vis_list %}
-                                            <li>
-                                                {% for y in x.chart_types.all %}
-                                                    <a class="dropdown-item" title="{{ x.help_text }}" href="?{{ request.GET.urlencode }}&charttype={{ y }}&property={{ x.field_path }}">{{ x.label }} {{ y.icon|safe }}</a>
-                                                {% endfor %}
-                                            </li>
-                                            <hr/>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if vis_list %}
-                                {% if data %}
-                                    <div class="card">
-                                        <div class="card-heading" style="text-align:center;">
-                                            <h1>{{ data.title }}</h1>
-                                            <legend>{{ data.items }}</legend>
-                                            <button  type="button" class="btn btn-default" data-toggle="collapse" data-target="#howtocite" id="howtocite-btn">JSON data</button>
-                                            <div id="howtocite" class="collapse">
-                                                <p>{{data}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div id="bar"></div>
-                                        </div>
-                                        {% if error %}
-                                            <h4>{{ error_msg|safe }}</h4>
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        {% endblock %}
+                        <a class ="btn btn-outline-secondary"  href=".">Reset search</a>
+                        {% include 'browsing/partials/chart_form.html' %}
                 </div>
             </div>
             </div>
