@@ -1,7 +1,7 @@
 acdh-django-charts==0.5.3
 django-autocomplete-light>=3.8.1
 django-crispy-forms>=1.10.0
-django-filter==2.4.0,<22
+django-filter==21.1
 django-super-deduper>=0.1.2
 django-tables2>=2.3.3
 tablib>=3.0.0
