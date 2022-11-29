@@ -1,8 +1,12 @@
-
-{% if columns %}
+{% if togglable_colums %}
     <select class="selectpicker" multiple data-selected-text-format="count > 2" name="columns" id="column_selector">
-    {% for x in columns %}
-        <option value="{{ x }}">{{ x|title }}</option>
+    {% for key, value in togglable_colums.items %}
+        {% if key == 'merge' and user.is_authenticated and enable_merge %}
+        <option value="{{ key }}">{{ value }}</option>
+        {% elif key == 'merge' and not user.is_authenticated %}
+        {% elif key != 'merge' %}
+        <option value="{{ key }}">{{ value }}</option>
+        {% endif %}
     {% endfor %}
     </select>
 
