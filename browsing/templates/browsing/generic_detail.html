@@ -9,15 +9,15 @@
         <div class="row">
             <div class="col-md-2">
                 {% if object.get_prev %}
-                <h2>
-                    <a href="{{ object.get_prev }}">
+                <h2 class="text-start">
+                    <a href="{{ object.get_prev }}" >
                         <i class="bi bi-chevron-left" title="previous entry"></i>
                     </a>
                 </h2>
                 {% endif %}
             </div>
             <div class="col-md-8">
-                <h2 style="text-align: center;">
+                <h2 class="text-center">
                     <small><a href="{{ object.get_listview_url }}"><i class="bi bi-list"
                                 title="back to list view"></i></a></small>
                     {{ object }}
@@ -31,9 +31,9 @@
                 </h2>
             </div>
             <div class="col-md-2">
-                <h2>
+                <h2 class="text-end">
                     {% if object.get_next %}
-                    <a href="{{ object.get_next }}" style="float:right">
+                    <a href="{{ object.get_next }}" >
                         <i class="bi bi-chevron-right" title="next entry"></i>
                     </a>
                 </h2>
