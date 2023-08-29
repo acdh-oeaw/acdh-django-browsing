@@ -10,16 +10,6 @@
 {% endblock %}
 {% block content %}
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        var fetchedParameter = "{{ table.page.number }}";
-        $("#goto option").each(function () {
-            if ($(this).text() == fetchedParameter) {
-                $(this).attr('selected', 'selected');
-            }
-        });
-    });
-</script>
 <div class="row">
     <div class="col-md-4">
         <div class="card">
