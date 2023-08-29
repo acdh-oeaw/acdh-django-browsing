@@ -138,7 +138,7 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
 
 class BaseDetailView(DetailView):
     model = None
-    template_name = "browsing/generic_create.html"
+    template_name = "browsing/generic_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

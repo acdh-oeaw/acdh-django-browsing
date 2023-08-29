@@ -19,7 +19,7 @@
                 <div class="col-md-8">
                     <h2 style="text-align: center;">
                         <small><a href="{{ object.get_listview_url }}"><i data-feather="chevron-up" title="back to listview"></i></a></small>
-                        {{ object }}
+                        {{ object }} asdfasfs
                         {% if user.is_authenticated %}
                             <small>
                                 <a href="{{ object.get_edit_url }}">
@@ -49,16 +49,15 @@
     <div class="card-body">
         {% block custom %}
             <legend>Basic Information</legend>
-            {{ object.field_dict }}
-
                 <table class="table table-bordered table-hover">
-                    {% for key, value in object.field_dict.items %}
+                    {% for x in object.field_dict %}
                         <tr>
                             <th>
-                                {{ key }}
+                                <abbr title="{{x.help_text}}">{{ x.verbose_name }}</abbr>
                             </th>
+
                             <td>
-                                {{ value }}
+                                {{ x.value }}
                             </td>
                         </tr>
                     {% endfor %}
