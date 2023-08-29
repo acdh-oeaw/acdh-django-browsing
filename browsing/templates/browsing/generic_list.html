@@ -30,7 +30,7 @@
                 {% if user.is_authenticated %}
                 {% if create_view_link %}
                 <div class="d-grid gap-2">
-                    <a class="btn btn-primary float-center" href="{{ create_view_link }}">Create new {{ class_name }}</a>
+                    <a class="btn btn-primary float-center mb-2" href="{{ create_view_link }}">Create new {{ class_name }}</a>
                 </div>
                 {% endif %}
                 {% endif %}
@@ -40,30 +40,9 @@
                 {% load django_tables2 crispy_forms_tags %}
                 <form action="." class="uniForm" method="get">
                     {% crispy filter.form filter.form.helper %}
-
-
-                    {% if togglable_colums %}
-                    <label for="column_selector">Select additional columns:</label>
-                    <select multiple class="form-control" name="columns" size="3" id="column_selector"
-                        style="margin-bottom: 1em">
-                        {% for key, value in togglable_colums.items %}
-                        {% if key == 'merge' and user.is_authenticated and enable_merge %}
-                        <option value="{{ key }}">
-                            {{ value }}
-                        </option>
-                        {% elif key == 'merge' and not user.is_authenticated %}
-                        {% elif key != 'merge' %}
-                        <option value="{{ key }}">
-                            {{ value }}
-                        </option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    {% endif %}
-               
-                    <a class="btn btn-primary"  href=".">Suche zurücksetzen</a>
-                    <button type="submit" class="btn btn-primary">Suchanfrage absenden</button>
+                    {% include 'browsing/partials/column_selector.html' %}
+                    <a class="btn btn-primary"  href=".">Reset</a>
+                    <button type="submit" class="btn btn-primary">Search</button>
             </form>
                 {% include 'browsing/partials/chart_form.html' %}
             </div>
@@ -75,13 +54,16 @@
                 {% with table.paginator.count as total %}
                 <legend>Total results: {{ total }}</legend>
                 {% endwith %}
-                {% include 'browsing/partials/download_menu.html' %}
+                
                 {% block table %}
                 {% include 'browsing/partials/table.html' %}
                 {% endblock table %}
                 {% block pagination.allpages %}
                 {% include 'browsing/partials/pagination.html' %}
                 {% endblock pagination.allpages %}
+                <div class="float-end">
+                    {% include "browsing/partials/download_menu.html" %}
+                </div>
             </div>
         </div>
     </div>
