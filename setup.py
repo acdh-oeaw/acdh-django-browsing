@@ -31,12 +31,12 @@ setup(
     ],
     install_requires=[
         'acdh-django-charts==0.5.3',
-        'django-autocomplete-light>=3.8.1',
-        'django-crispy-forms>=1.10.0',
-        'django-filter>=2.4.0,<22.1',
+        'django-autocomplete-light>=3.8.1,<4',
+        'django-crispy-forms>=2.0,<3,',
+        'crispy-bootstrap5>=0.7,<1',
+        'django-filter>=23.1,<24',
         'django-super-deduper>=0.1.2',
-        'django-tables2>=2.3.3',
-        'pandas>=1.1.0',
-        'tablib>=3.0.0',
+        'django-tables2>=2.5,<3',
+        'tablib>=3.5.0,<4',
     ],
 )

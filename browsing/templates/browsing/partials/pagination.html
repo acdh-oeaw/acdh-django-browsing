@@ -3,34 +3,11 @@
 
 <div>
     {% with table.page.object_list|length as count %}
-        <p>Page total: {{ count }}</p>
+        <p class="float-center">Page total: {{ count }}</p>
     {% endwith %}
 </div>
-<ul class="pagination">
-    {% if table.paginator.page_range|length > 10 %}
-        {% if table.page.has_previous %}
-            {% block pagination.previous.goto %}
-                <li class="previous">
-                    <a style="margin-right: 10px;"  href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}">{% trans "Previous" %}</a>
-                </li>
-            {% endblock pagination.previous.goto %}
-        {% endif %}
-    {% if table.page.has_previous or table.page.has_next %}
-        {% block pagination.cardinality %}
-            {% blocktrans with table.page.number as current and table.paginator.num_pages as total %}
-                <p>Page {{ current }} of {{ total }}</p>
-            {% endblocktrans %}
-        {% endblock pagination.cardinality %}
-    {% endif %}
-    {% if table.page.has_next %}
-        {% block pagination.next.goto %}
-            <li class="next">
-                <a style="margin-left: 10px;" href="{% querystring table.prefixed_page_field=table.page.next_page_number %}" style="border-radius: 0px;">{% trans "Next" %}</a>
-            </li>
-        {% endblock pagination.next.goto %}
-    {% endif %}
-</ul>
-<div class="form-group" style="width: 20%;">
+{% if table.paginator.page_range|length > 25 %}
+<div class="form-group mb-3">
     <label for="goto">Go to page</label>
     <select class="form-control" id="goto" onchange="javascript:location.href = this.value;">
         {% for p in table.paginator.page_range %}
@@ -39,30 +16,34 @@
     </select>
 </div>
 {% else %}
+<nav aria-label="Pagination of the results table">
+    <ul class="pagination">
     {% if table.page.has_previous %}
         {% block pagination.previous %}
-            <li class="previous">
-                <a style="margin-right: 10px;"  href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}">{% trans "Previous" %}</a>
-            </li>
+        <li class="page-item">
+            <a class="page-link" href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
         {% endblock pagination.previous %}
     {% endif %}
     {% for p in table.paginator.page_range %}
         {% if p == table.page.number %}
-            <li>
-                <a href="{% querystring table.prefixed_page_field=p %}" style="background-color:#007bff; border-color: #2e6da4; color: #ffffff; padding: 5px 10px 5px 10px;">{{ p }}</a>
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">{{ p }}</a>
             </li>
         {% else %}
-            <li>
-                <a href="{% querystring table.prefixed_page_field=p %}" style="padding: 5px 10px 5px 10px;"> {{ p }}</a>
+            <li class="page-item">
+                <a class="page-link" href="{% querystring table.prefixed_page_field=p %}"> {{ p }}</a>
             </li>
         {% endif %}
     {% endfor %}
     {% if table.page.has_next %}
         {% block pagination.next %}
-            <li class="next">
-                <a style="margin-left: 10px;"  href="{% querystring table.prefixed_page_field=table.page.next_page_number %}">{% trans "Next" %}</a>
-            </li>
+        <li class="page-item">
+            <a class="page-link" href="{% querystring table.prefixed_page_field=table.page.next_page_number %}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        </li>
         {% endblock pagination.next %}
     {% endif %}
-</ul>
+    </ul>
+</nav>
 {% endif %}
