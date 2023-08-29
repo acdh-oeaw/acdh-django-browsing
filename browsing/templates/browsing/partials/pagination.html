@@ -3,11 +3,11 @@
 
 <div>
     {% with table.page.object_list|length as count %}
-        <p>Page total: {{ count }}</p>
+        <p class="float-center">Page total: {{ count }}</p>
     {% endwith %}
 </div>
-{% if table.paginator.page_range|length > 20 %}
-<div class="form-group">
+{% if table.paginator.page_range|length > 25 %}
+<div class="form-group mb-3">
     <label for="goto">Go to page</label>
     <select class="form-control" id="goto" onchange="javascript:location.href = this.value;">
         {% for p in table.paginator.page_range %}

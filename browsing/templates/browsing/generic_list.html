@@ -10,54 +10,61 @@
 {% endblock %}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h3 style="margin-bottom:15px;">
-                    Browse {% class_definition %} {% block list_title %}{% endblock %}
-                </h3>
-                {% if user.is_authenticated %}
-                {% if create_view_link %}
-                <div class="d-grid gap-2">
-                    <a class="btn btn-primary float-center mb-2" href="{{ create_view_link }}">Create new {{ class_name }}</a>
-                </div>
-                {% endif %}
-                {% endif %}
-                {% block customView %}{% endblock %}
-                {% block create_button %}{% endblock %}
-                <!--Search mask-->
-                {% load django_tables2 crispy_forms_tags %}
-                <form action="." class="uniForm" method="get">
-                    {% crispy filter.form filter.form.helper %}
-                    {% include 'browsing/partials/column_selector.html' %}
-                    <a class="btn btn-primary"  href=".">Reset</a>
-                    <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-                {% include 'browsing/partials/chart_form.html' %}
-            </div>
-        </div>
+<div class="card mt-3">
+    <div class="card-header text-center">                    
+        <h1 >
+            Browse {% class_definition %} {% block list_title %}{% endblock %}
+        </h1>
+    {% if user.is_authenticated %}
+    {% if create_view_link %}
+    <div class="d-grid gap-2">
+        <a class="btn btn-primary float-center ms-5 me-5" href="{{ create_view_link }}">Create new {{ class_name }}</a>
     </div>
-    <div class="col-md-8" id="results">
-        <div class="card">
-            <div class="card-body table-responsive">
-                {% with table.paginator.count as total %}
-                <legend>Total results: {{ total }}</legend>
-                {% endwith %}
-                
-                {% block table %}
-                {% include 'browsing/partials/table.html' %}
-                {% endblock table %}
-                {% block pagination.allpages %}
-                {% include 'browsing/partials/pagination.html' %}
-                {% endblock pagination.allpages %}
-                <div class="float-end">
-                    {% include "browsing/partials/download_menu.html" %}
+    {% endif %}
+    {% endif %}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center">Search</h2>
+                        {% block customView %}{% endblock %}
+                        {% block create_button %}{% endblock %}
+                        <!--Search mask-->
+                        {% load django_tables2 crispy_forms_tags %}
+                        <form action="." class="uniForm" method="get">
+                            {% crispy filter.form filter.form.helper %}
+                            {% include 'browsing/partials/column_selector.html' %}
+                            <a class="btn btn-primary"  href=".">Reset</a>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                        {% include 'browsing/partials/chart_form.html' %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8" id="results">
+                <div class="card">
+                    {% with table.paginator.count as total %}
+                    <h2 class="text-center">{{ total }} Result(s)</h2>
+                    {% endwith %}
+                    <div class="card-body table-responsive">
+                        {% block table %}
+                        {% include 'browsing/partials/table.html' %}
+                        {% endblock table %}
+                        {% block pagination.allpages %}
+                        {% include 'browsing/partials/pagination.html' %}
+                        {% endblock pagination.allpages %}
+                        <div class="float-end">
+                            {% include "browsing/partials/download_menu.html" %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+    
 
 {% endblock %}
 {% block scripts2 %}
