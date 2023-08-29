@@ -28,7 +28,7 @@ setup(
     install_requires=[
         "acdh-django-charts==0.5.3",
         "django-autocomplete-light>=3.8.1,<4",
-        "django-crispy-forms>=2.0,<3,",
+        "django-crispy-forms>=2.0,<3",
         "crispy-bootstrap5>=0.7,<1",
         "django-filter>=23.1,<24",
         "django-super-deduper>=0.1.4",
