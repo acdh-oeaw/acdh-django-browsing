@@ -5,7 +5,7 @@ with open("README.md") as readme_file:
 
 setup(
     name="acdh-django-browsing",
-    version="2.0",
+    version="3.0",
     packages=find_packages(),
     include_package_data=True,
     license="MIT License",

@@ -1,72 +1,99 @@
-{% extends "webpage/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load webpage_extras %}
 {% block title %}{{ object.name }}{% endblock %}
 {% block content %}
-<!-- <div class="container"> -->
-<div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col-md-2">
-                {% if object.get_prev %}
-                <h2 class="text-start">
-                    <a href="{{ object.get_prev }}" >
-                        <i class="bi bi-chevron-left" title="previous entry"></i>
-                    </a>
-                </h2>
-                {% endif %}
-            </div>
-            <div class="col-md-8">
-                <h2 class="text-center">
-                    <small><a href="{{ object.get_listview_url }}"><i class="bi bi-list"
-                                title="back to list view"></i></a></small>
-                    {{ object }}
-                    {% if user.is_authenticated %}
-                    <small>
-                        <a href="{{ object.get_edit_url }}">
-                            <i class="bi bi-pencil-square" title="edit entry"></i>
-                        </a>
-                    </small>
-                    {% endif %}
-                </h2>
-            </div>
-            <div class="col-md-2">
-                <h2 class="text-end">
-                    {% if object.get_next %}
-                    <a href="{{ object.get_next }}" >
-                        <i class="bi bi-chevron-right" title="next entry"></i>
-                    </a>
-                </h2>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <div class="card-body">
-        {% block custom %}
-        <legend>Basic Information</legend>
-        <table class="table table-bordered table-hover">
-            {% for x in object.field_dict %}
-            <tr>
-                <th>
-                    <abbr title="{{x.help_text}}">{{ x.verbose_name }}</abbr>
-                </th>
 
-                <td>
-                    {{ x.value }}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% if user.is_authenticated %}
-    <div class="card-footer">
-        <div class="float-end">
-            <a href="{{ object.get_delete_url }}">
-                <i class="bi bi-trash3" title="delete entry"></i>
-            </a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 text-start">
+            {% if object.get_prev %}
+            <span class="fs-2 ">
+                <a href="{{ object.get_prev }}">
+                    <i class="bi bi-chevron-left" title="previous entry"></i>
+                </a>
+            </span>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1 class="text-center">
+                <small>
+                    <a href="{{ object.get_listview_url }}">
+                        <i class="bi bi-list"
+                            title="back to list view"></i>
+                    </a>
+                </small>
+                {{ object }}
+                {% if user.is_authenticated %}
+                <small>
+                    <a href="{{ object.get_edit_url }}">
+                        <i class="bi bi-pencil-square" title="edit entry"></i>
+                    </a>
+                </small>
+                {% endif %}
+            </span>
+        </div>
+        <div class="col-md-2 text-end">
+            <span class="fs-2">
+                {% if object.get_next %}
+                <a href="{{ object.get_next }}">
+                    <i class="bi bi-chevron-right" title="next entry"></i>
+                </a>
+            </span>
+            {% endif %}
         </div>
     </div>
-    {% endif %}
+    {% block custom %}
+    <table class="table table-bordered table-hover">
+        {% for x in object.field_dict %}
+        {% if x.f_type == 'REVRESE_RELATION' %}
+        <tr>
+            <th>
+                <abbr title="{{x.help_text}}">{{ x.verbose_name }}</abbr>
+            </th>
+            <td>
+                {% for y in x.value %}
+                <a href="{{ y.get_absolute_url }}">{{ y|safe }}</a>
+                {% endfor %}
+            </td>
+        </tr>
+        {% elif x.f_type == 'FK' %}
+        <tr>
+            <th>
+                <abbr title="{{x.help_text}}">{{ x.verbose_name }}</abbr>
+            </th>
+            <td><a href="{{ x.value.get_absolute_url }}">{{ x.value|safe }}</a></td>
+        </tr>
+        {% elif x.f_type == 'M2M' %}
+        <tr>
+            <th>
+                <abbr title="{{x.help_text}}">{{ x.verbose_name }}</abbr>
+            </th>
+            <td>
+                {% for y in x.value %}
+                <a href="{{ y.get_absolute_url }}">{{ y|safe }}</a>
+                {% endfor %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <th>
+                <abbr title="{{x.help_text}}">{{ x.verbose_name }}</abbr>
+            </th>
+            <td>
+                {{ x.value|safe }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% if user.is_authenticated %}
+    <div class="float-end">
+        <a href="{{ object.get_delete_url }}">
+            <i class="bi bi-trash3" title="delete entry"></i>
+        </a>
+    </div>
 </div>
+{% endif %}
 {% endblock custom %}
 {% endblock %}
