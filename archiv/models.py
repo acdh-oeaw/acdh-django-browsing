@@ -1,4 +1,5 @@
 from django.db import models
+from browsing.utils import model_to_dict
 
 
 class Place(models.Model):
@@ -19,6 +20,9 @@ class Place(models.Model):
         ordering = [
             "name",
         ]
+
+    def field_dict(self):
+        return model_to_dict(self)
 
     def __str__(self):
         if self.name:
@@ -70,6 +74,9 @@ class Person(models.Model):
             "name",
         ]
 
+    def field_dict(self):
+        return model_to_dict(self)
+
     def __str__(self):
         if self.name:
             return f"{self.name}"
@@ -110,6 +117,9 @@ class Book(models.Model):
         ordering = [
             "name",
         ]
+
+    def field_dict(self):
+        return model_to_dict(self)
 
     def __str__(self):
         if self.name:
