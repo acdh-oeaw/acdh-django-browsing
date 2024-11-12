@@ -54,6 +54,7 @@ class Person(models.Model):
         blank=True,
         null=True,
         related_name="place_of_birth_of",
+        verbose_name="Place of birth",
     )
     date_of_birth = models.DateField(
         blank=True,
@@ -67,6 +68,7 @@ class Person(models.Model):
         blank=True,
         null=True,
         related_name="place_of_death_of",
+        verbose_name="Place of death",
     )
     date_of_death = models.DateField(
         blank=True,
@@ -105,7 +107,7 @@ class Book(models.Model):
     name = models.CharField(
         max_length=300,
         blank=True,
-        verbose_name="Ttile",
+        verbose_name="Title",
         help_text="The title of the Book",
     )
     author = models.ManyToManyField(
