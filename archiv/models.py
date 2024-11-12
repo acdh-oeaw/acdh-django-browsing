@@ -105,7 +105,7 @@ class Book(models.Model):
     name = models.CharField(
         max_length=300,
         blank=True,
-        verbose_name="Ttile",
+        verbose_name="Title",
         help_text="The title of the Book",
     )
     author = models.ManyToManyField(

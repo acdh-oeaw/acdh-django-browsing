@@ -55,6 +55,9 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     init_columns = []
     enable_merge = False
     excluded_cols = []
+    h1 = ""
+    create_button_text = "Create new item"
+    introduction = ""
 
     def get_filterset_class(self):
         if self.filter_class:
@@ -102,13 +105,6 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         context["togglable_colums"] = togglable_colums
         context[self.context_filter_name] = self.filter
         context["docstring"] = f"{self.model.__doc__}"
-        if self.model._meta.verbose_name_plural:
-            context["class_name"] = "{}".format(self.model._meta.verbose_name.title())
-        else:
-            if self.model.__name__.endswith("s"):
-                context["class_name"] = f"{self.model.__name__}"
-            else:
-                context["class_name"] = "{}s".format(self.model.__name__)
         try:
             context["create_view_link"] = self.model.get_createview_url()
         except AttributeError:
@@ -116,6 +112,13 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         model_name = self.model.__name__.lower()
         context["entity"] = model_name
         context["app_name"] = self.model._meta.app_label
+        if self.h1:
+            context["h1"] = self.h1
+        else:
+            context["h1"] = f"Browse {self.model._meta.verbose_name_plural}"
+        context["create_button_text"] = self.create_button_text
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
         return context
 
 
@@ -128,6 +131,8 @@ class BaseDetailView(DetailView):
         context["docstring"] = f"{self.model.__doc__}"
         context["class_name"] = f"{self.model.__name__}"
         context["app_name"] = f"{self.model._meta.app_label}"
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
         return context
 
 
