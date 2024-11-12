@@ -8,6 +8,8 @@ from crispy_forms.layout import Submit
 
 from django_tables2.export.views import ExportMixin
 
+from browsing.filters import get_generic_filter
+
 input_form = """
   <input type="checkbox" name="keep" value="{}" title="keep this"/> |
   <input type="checkbox" name="remove" value="{}" title="remove this"/>
@@ -54,6 +56,13 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     init_columns = []
     enable_merge = False
     excluded_cols = []
+
+    def get_filter_class(self):
+        if self.filter_class:
+            return self.filter_class
+        else:
+            filter_class = get_generic_filter(self.model)
+            return filter_class
 
     def get_table_class(self):
         if self.table_class:
