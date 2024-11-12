@@ -1,5 +1,6 @@
 from django.db import models
 from browsing.utils import model_to_dict
+from django.urls import reverse
 
 
 class Place(models.Model):
@@ -29,6 +30,13 @@ class Place(models.Model):
             return f"{self.name}"
         else:
             return f"{self.id}"
+
+    @classmethod
+    def get_listview_url(self):
+        return reverse("archiv:place_list")
+
+    def get_absolute_url(self):
+        return reverse("archiv:place_detail", kwargs={"pk": self.id})
 
 
 class Person(models.Model):
@@ -83,6 +91,13 @@ class Person(models.Model):
         else:
             return f"{self.id}"
 
+    @classmethod
+    def get_listview_url(self):
+        return reverse("archiv:place_list")
+
+    def get_absolute_url(self):
+        return reverse("archiv:place_detail", kwargs={"pk": self.id})
+
 
 class Book(models.Model):
     """A Book"""
@@ -126,3 +141,10 @@ class Book(models.Model):
             return f"{self.name}"
         else:
             return f"{self.id}"
+
+    @classmethod
+    def get_listview_url(self):
+        return reverse("archiv:place_list")
+
+    def get_absolute_url(self):
+        return reverse("archiv:place_detail", kwargs={"pk": self.id})
