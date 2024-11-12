@@ -95,10 +95,10 @@ class Person(models.Model):
 
     @classmethod
     def get_listview_url(self):
-        return reverse("archiv:place_list")
+        return reverse("archiv:person_list")
 
     def get_absolute_url(self):
-        return reverse("archiv:place_detail", kwargs={"pk": self.id})
+        return reverse("archiv:person_detail", kwargs={"pk": self.id})
 
 
 class Book(models.Model):
@@ -146,7 +146,7 @@ class Book(models.Model):
 
     @classmethod
     def get_listview_url(self):
-        return reverse("archiv:place_list")
+        return reverse("archiv:book_list")
 
     def get_absolute_url(self):
-        return reverse("archiv:place_detail", kwargs={"pk": self.id})
+        return reverse("archiv:book_detail", kwargs={"pk": self.id})
