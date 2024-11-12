@@ -10,5 +10,4 @@ exclude =
     build,
     dist
     env
-    appcreator
-    webpage
+    venv
