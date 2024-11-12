@@ -25,7 +25,6 @@
         <div class="col-md-4">
             <!--Search mask-->
             <h2 class="text-center pb-4 pt-3">Refine Results</h2>
-            {% load django_tables2 crispy_forms_tags %}
             <form action="." class="uniForm" method="get">
                 {% crispy filter.form filter.form.helper %}
                 {% include 'browsing/partials/column_selector.html' %}
