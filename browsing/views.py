@@ -13,10 +13,8 @@ def merge_objects(request):
         remove = request.POST.getlist("remove", None)
         model_name = request.POST.get("model_name", None)
         app_name = request.POST.get("app_name", None)
-        print("##############################")
         print(keep, remove, model_name, app_name)
         if keep and remove and model_name and app_name:
-            print("all good")
             try:
                 ct = ContentType.objects.get(
                     app_label=app_name, model=model_name
@@ -34,7 +32,7 @@ def merge_objects(request):
                     for x in remove_objs:
                         MergedModelInstance(keep_obj, x).merge(x)
                         x.delete()
-                        print("merged {} into {}".format(x, keep_obj))
+                        print(f"merged {x} into {keep_obj}")
         return HttpResponseRedirect(go_back)
     else:
         return HttpResponseRedirect(go_back)
