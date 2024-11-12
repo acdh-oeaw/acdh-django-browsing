@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acdh-django-browsing"
+version = "3.0"
+description = "Django-App providing some useful things to create browsing views"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    {name = "Peter Andorfer", email = "peter.andorfer@oeaw.ac.at"}
+]
+requires-python = ">=3.10"
+keywords = ["django"]
+dependencies = [
+    "django-autocomplete-light",
+    "django-crispy-forms",
+    "django-filter",
+    "django-super-deduper",
+    "django-tables",
+    "tablib",
+]
+
+
+[project.optional-dependencies]
+# Example for dev dependencies, add as needed
+tests = ["pytest", "coverage"]
+linting = ["flake8"]
+build = ["build"]
+
+[project.urls]
+Homepage = "https://github.com/acdh-oeaw/acdh-django-browsing"
+
+
+[tool.setuptools]
+packages = ["browsing",]
