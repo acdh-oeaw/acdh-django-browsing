@@ -1,5 +1,4 @@
 import django_tables2
-
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -49,7 +48,7 @@ class GenericFilterFormHelper(FormHelper):
 
 class GenericListView(ExportMixin, django_tables2.SingleTableView):
     filter_class = None
-    formhelper_class = None
+    formhelper_class = GenericFilterFormHelper
     context_filter_name = "filter"
     paginate_by = 50
     template_name = "browsing/generic_list.html"
@@ -57,7 +56,7 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     enable_merge = False
     excluded_cols = []
 
-    def get_filter_class(self):
+    def get_filterset_class(self):
         if self.filter_class:
             return self.filter_class
         else:
@@ -78,7 +77,8 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
 
     def get_queryset(self, **kwargs):
         qs = super(GenericListView, self).get_queryset()
-        self.filter = self.filter_class(self.request.GET, queryset=qs)
+        filter_class = self.get_filterset_class()
+        self.filter = filter_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs.distinct()
 
