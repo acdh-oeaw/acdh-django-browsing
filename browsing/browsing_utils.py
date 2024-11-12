@@ -1,6 +1,5 @@
 import django_tables2
 
-from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -8,12 +7,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from django_tables2.export.views import ExportMixin
-
-
-if "charts" in settings.INSTALLED_APPS:
-    from charts.models import ChartConfig
-    from charts.views import create_payload
-
 
 input_form = """
   <input type="checkbox" name="keep" value="{}" title="keep this"/> |
@@ -99,12 +92,12 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         }
         context["togglable_colums"] = togglable_colums
         context[self.context_filter_name] = self.filter
-        context["docstring"] = "{}".format(self.model.__doc__)
+        context["docstring"] = f"{self.model.__doc__}"
         if self.model._meta.verbose_name_plural:
             context["class_name"] = "{}".format(self.model._meta.verbose_name.title())
         else:
             if self.model.__name__.endswith("s"):
-                context["class_name"] = "{}".format(self.model.__name__)
+                context["class_name"] = f"{self.model.__name__}"
             else:
                 context["class_name"] = "{}s".format(self.model.__name__)
         try:
@@ -114,25 +107,6 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         model_name = self.model.__name__.lower()
         context["entity"] = model_name
         context["app_name"] = self.model._meta.app_label
-        if "charts" in settings.INSTALLED_APPS:
-            model = self.model
-            app_label = model._meta.app_label
-            filtered_objs = ChartConfig.objects.filter(
-                model_name=model.__name__.lower(), app_name=app_label
-            )
-            context["vis_list"] = filtered_objs
-            context["property_name"] = self.request.GET.get("property")
-            context["charttype"] = self.request.GET.get("charttype")
-            if context["charttype"] and context["property_name"]:
-                qs = self.get_queryset()
-                chartdata = create_payload(
-                    context["entity"],
-                    context["property_name"],
-                    context["charttype"],
-                    qs,
-                    app_label=app_label,
-                )
-                context = dict(context, **chartdata)
         return context
 
 
@@ -142,9 +116,9 @@ class BaseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["docstring"] = "{}".format(self.model.__doc__)
-        context["class_name"] = "{}".format(self.model.__name__)
-        context["app_name"] = "{}".format(self.model._meta.app_label)
+        context["docstring"] = f"{self.model.__doc__}"
+        context["class_name"] = f"{self.model.__name__}"
+        context["app_name"] = f"{self.model._meta.app_label}"
         return context
 
 
@@ -155,8 +129,8 @@ class BaseCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseCreateView, self).get_context_data()
-        context["docstring"] = "{}".format(self.model.__doc__)
-        context["class_name"] = "{}".format(self.model.__name__)
+        context["docstring"] = f"{self.model.__doc__}"
+        context["class_name"] = f"{self.model.__name__}"
         return context
 
 
@@ -167,12 +141,8 @@ class BaseUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseUpdateView, self).get_context_data()
-        context["docstring"] = "{}".format(self.model.__doc__)
-        context["class_name"] = "{}".format(self.model.__name__)
-        # if self.model.__name__.endswith('s'):
-        #     context['class_name'] = "{}".format(self.model.__name__)
-        # else:
-        #     context['class_name'] = "{}s".format(self.model.__name__)
+        context["docstring"] = f"{self.model.__doc__}"
+        context["class_name"] = f"{self.model.__name__}"
         return context
 
 
