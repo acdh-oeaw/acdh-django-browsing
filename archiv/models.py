@@ -3,11 +3,8 @@ from django.db import models
 
 class Place(models.Model):
     """A Place"""
-    PLACE_TYPES = {
-        "city": "City",
-        "country": "Country",
-        "other": "Something else"
-    }
+
+    PLACE_TYPES = {"city": "City", "country": "Country", "other": "Something else"}
     name = models.CharField(
         max_length=300,
         blank=True,
@@ -32,6 +29,7 @@ class Place(models.Model):
 
 class Person(models.Model):
     """A Person"""
+
     name = models.CharField(
         max_length=300,
         blank=True,
@@ -43,26 +41,26 @@ class Person(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="place_of_birth_of"
+        related_name="place_of_birth_of",
     )
     date_of_birth = models.DateField(
         blank=True,
         null=True,
         verbose_name="Date of birth",
-        help_text="Date of birth. Use the first of the month/year if only month or year is known"
+        help_text="Date of birth. Use the first of the month/year if only month or year is known",
     )
     place_of_death = models.ForeignKey(
         "Place",
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="place_of_death_of"
+        related_name="place_of_death_of",
     )
     date_of_death = models.DateField(
         blank=True,
         null=True,
         verbose_name="Date of death",
-        help_text="Date of death. Use the first of the month/year if only month or year is known"
+        help_text="Date of death. Use the first of the month/year if only month or year is known",
     )
 
     class Meta:
@@ -80,7 +78,8 @@ class Person(models.Model):
 
 
 class Book(models.Model):
-    """ A Book """
+    """A Book"""
+
     name = models.CharField(
         max_length=300,
         blank=True,
@@ -92,19 +91,17 @@ class Book(models.Model):
         blank=True,
         verbose_name="Author",
         help_text="The Author of the Book",
-        related_name="author_of"
+        related_name="author_of",
     )
     place_of_publication = models.ManyToManyField(
         "Place",
         blank=True,
         verbose_name="Publication Place",
         help_text="Publication place of the book",
-        related_name="publication_place_of"
+        related_name="publication_place_of",
     )
     published = models.BooleanField(
-        default=True,
-        verbose_name="published",
-        help_text="Is the book public"
+        default=True, verbose_name="published", help_text="Is the book public"
     )
 
     class Meta:
