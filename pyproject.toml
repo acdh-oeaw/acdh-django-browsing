@@ -14,11 +14,10 @@ authors = [
 requires-python = ">=3.10"
 keywords = ["django"]
 dependencies = [
-    "django-autocomplete-light",
     "django-crispy-forms",
     "django-filter",
     "django-super-deduper",
-    "django-tables",
+    "django-tables2",
     "tablib",
 ]
 

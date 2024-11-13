@@ -1,0 +1,6 @@
+pytest
+coverage
+django
+django-next-prev
+crispy_bootstrap5
+.
