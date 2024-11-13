@@ -2,11 +2,12 @@
 [![Test](https://github.com/acdh-oeaw/acdh-django-browsing/actions/workflows/test.yml/badge.svg)](https://github.com/acdh-oeaw/acdh-django-browsing/actions/workflows/test.yml)
 [![PyPI version](https://badge.fury.io/py/acdh-django-browsing.svg)](https://badge.fury.io/py/acdh-django-browsing)
 # acdh-django-browsing
-
 Django-App providing some useful things to create browsing views
 
-## Quickstart
+## Features
+see the example project in this repo to check out how to use the package and what it does
 
+## Quickstart
 Install acdh-django-browsing:
 
 `pip install acdh-django-browsing`
@@ -23,25 +24,23 @@ INSTALLED_APPS = (
 
 
 ## Develop
-
-### install dev-dependencies
+### install (dev-)dependencies
 ```bash
-pip install build pytest coverage flake8 black django django-next-prev
-```
-
-### install package
-```bash
-pip install .
+pip install -r requirements.txt
 ```
 
 ### run migrations and start dev server
-```
+```bash
 python manage.py migrate
 python manage.py runserver
 ```
 
-### build the package
-
+### run tests
+```bash
+coverage run manage.py test -v 2
 ```
+
+### build the package
+```bash
 python -m build
 ```
