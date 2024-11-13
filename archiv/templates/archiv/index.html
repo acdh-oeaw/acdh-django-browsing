@@ -1,4 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
 <h1 class="text-center display-1">acdh-django-browsing example</h1>
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="text-center pt-3">
+                <a class="display-2" href="{% url 'archiv:person_list' %}">
+                    <i class="bi bi-people big-icons"></i>
+                    <h2>Persons</h2>
+                </a>
+                <p class="lead pt-3">{% lorem 20 w %}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="text-center pt-3">
+                <a class="display-2" href="{% url 'archiv:place_list' %}">
+                    <i class="bi bi-map"></i>
+                    <h2>Places</h2>
+                </a>
+                <p class="lead pt-3">{% lorem 20 w %}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="text-center">
+                <a class="display-2" href="{% url 'archiv:book_list' %}">
+                    <i class="bi bi-book big-icons"></i>
+                    <h2>Books</h2>
+                </a>
+                <p class="lead pt-3">{% lorem 20 w %}</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

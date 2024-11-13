@@ -11,9 +11,10 @@ class StartView(TemplateView):
 class PersonListView(GenericListView):
     model = Person
     init_columns = [
-        "id", "name",
+        "id",
+        "name",
     ]
-    enable_merge = False
+    enable_merge = True
 
 
 class PersonDetailView(BaseDetailView):
@@ -23,7 +24,8 @@ class PersonDetailView(BaseDetailView):
 class PlaceListView(GenericListView):
     model = Place
     init_columns = [
-        "id", "name",
+        "id",
+        "name",
     ]
     enable_merge = False
 
@@ -35,7 +37,8 @@ class PlaceDetailView(BaseDetailView):
 class BookListView(GenericListView):
     model = Book
     init_columns = [
-        "id", "name",
+        "id",
+        "name",
     ]
     enable_merge = False
 

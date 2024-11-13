@@ -3,7 +3,6 @@ from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 
 from django_tables2.export.views import ExportMixin
 
@@ -43,7 +42,6 @@ class GenericFilterFormHelper(FormHelper):
         self.form_class = "genericFilterForm"
         self.form_method = "GET"
         self.form_tag = False
-        self.add_input(Submit("Filter", "Search"))
 
 
 class GenericListView(ExportMixin, django_tables2.SingleTableView):
@@ -52,7 +50,9 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     context_filter_name = "filter"
     paginate_by = 50
     template_name = "browsing/generic_list.html"
-    init_columns = ["id", ]
+    init_columns = [
+        "id",
+    ]
     enable_merge = False
     excluded_cols = []
     h1 = ""
