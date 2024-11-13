@@ -119,7 +119,7 @@ class Person(models.Model):
 
     def get_absolute_url(self):
         return reverse("archiv:person_detail", kwargs={"pk": self.id})
-    
+
     def get_next(self):
         try:
             next = next_in_order(self)
