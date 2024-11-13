@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 
 from browsing.utils import GenericListView, BaseDetailView
 from archiv.models import Person, Place, Book
+from archiv.tables import BookTable
 
 
 class StartView(TemplateView):
@@ -35,9 +36,12 @@ class PlaceDetailView(BaseDetailView):
 
 
 class BookListView(GenericListView):
+    h1 = "Stöbere in den Super Büchern"
     model = Book
+    table_class = BookTable
     init_columns = [
         "id",
+        "author",
         "name",
     ]
     enable_merge = False
