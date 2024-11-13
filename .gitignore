@@ -48,3 +48,8 @@ docs/_build
 env/
 venv/
 db.sqlite3
+books.csv
+persons.csv
+places.csv
+*.ipynb
+.ipynb_checkpoints/

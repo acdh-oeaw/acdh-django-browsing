@@ -2,6 +2,8 @@ from django.db import models
 from browsing.utils import model_to_dict
 from django.urls import reverse
 
+from next_prev import next_in_order, prev_in_order
+
 
 class Place(models.Model):
     """A Place"""
@@ -37,6 +39,24 @@ class Place(models.Model):
 
     def get_absolute_url(self):
         return reverse("archiv:place_detail", kwargs={"pk": self.id})
+
+    def get_next(self):
+        try:
+            next = next_in_order(self)
+        except ValueError:
+            return False
+        if next:
+            return reverse("archiv:place_detail", kwargs={"pk": next.id})
+        return False
+
+    def get_prev(self):
+        try:
+            prev = prev_in_order(self)
+        except ValueError:
+            return False
+        if prev:
+            return reverse("archiv:place_detail", kwargs={"pk": prev.id})
+        return False
 
 
 class Person(models.Model):
@@ -100,6 +120,24 @@ class Person(models.Model):
     def get_absolute_url(self):
         return reverse("archiv:person_detail", kwargs={"pk": self.id})
 
+    def get_next(self):
+        try:
+            next = next_in_order(self)
+        except ValueError:
+            return False
+        if next:
+            return reverse("archiv:person_detail", kwargs={"pk": next.id})
+        return False
+
+    def get_prev(self):
+        try:
+            prev = prev_in_order(self)
+        except ValueError:
+            return False
+        if prev:
+            return reverse("archiv:person_detail", kwargs={"pk": prev.id})
+        return False
+
 
 class Book(models.Model):
     """A Book"""
@@ -150,3 +188,21 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse("archiv:book_detail", kwargs={"pk": self.id})
+
+    def get_next(self):
+        try:
+            next = next_in_order(self)
+        except ValueError:
+            return False
+        if next:
+            return reverse("archiv:book_detail", kwargs={"pk": next.id})
+        return False
+
+    def get_prev(self):
+        try:
+            prev = prev_in_order(self)
+        except ValueError:
+            return False
+        if prev:
+            return reverse("archiv:book_detail", kwargs={"pk": prev.id})
+        return False

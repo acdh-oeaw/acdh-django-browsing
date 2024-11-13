@@ -25,7 +25,7 @@ INSTALLED_APPS = (
 
 ### install dev-dependencies
 ```bash
-pip install build pytest coverage flake8 black django
+pip install build pytest coverage flake8 black django django-next-prev
 ```
 
 ### install package
