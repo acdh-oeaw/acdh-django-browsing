@@ -7,6 +7,7 @@ from crispy_forms.helper import FormHelper
 from django_tables2.export.views import ExportMixin
 
 from browsing.filters import get_generic_filter
+from browsing.forms import get_generic_form
 
 input_form = """
   <input type="checkbox" name="keep" value="{}" title="keep this"/> |
@@ -31,7 +32,6 @@ def get_entities_table(model_class):
 
         class Meta:
             model = model_class
-            attrs = {"class": "table table-hover table-striped table-condensed"}
 
     return GenericEntitiesTable
 
@@ -141,11 +141,25 @@ class BaseCreateView(CreateView):
     model = None
     form_class = None
     template_name = "browsing/generic_create.html"
+    h1 = ""
+
+    def get_form_class(self):
+        if self.form_class:
+            return self.form_class
+        else:
+            return get_generic_form(self.model)
 
     def get_context_data(self, **kwargs):
         context = super(BaseCreateView, self).get_context_data()
         context["docstring"] = f"{self.model.__doc__}"
         context["class_name"] = f"{self.model.__name__}"
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
+        context["class_link"] = self.model.get_listview_url()
+        if self.h1:
+            context["h1"] = self.h1
+        else:
+            context["h1"] = f"Create new {self.model._meta.verbose_name}"
         return context
 
 
@@ -154,10 +168,20 @@ class BaseUpdateView(UpdateView):
     form_class = None
     template_name = "browsing/generic_create.html"
 
+    def get_form_class(self):
+        if self.form_class:
+            return self.form_class
+        else:
+            return get_generic_form(self.model)
+
     def get_context_data(self, **kwargs):
         context = super(BaseUpdateView, self).get_context_data()
         context["docstring"] = f"{self.model.__doc__}"
         context["class_name"] = f"{self.model.__name__}"
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
+        context["class_link"] = self.model.get_listview_url()
+        context["h1"] = f"{self.object}"
         return context
 
 

@@ -29,9 +29,10 @@ INSTALLED_APPS = (
 pip install -r requirements.txt
 ```
 
-### run migrations and start dev server
+### run migrations, load fixtures, and start dev server
 ```bash
 python manage.py migrate
+python manage.py loaddata data.json
 python manage.py runserver
 ```
 

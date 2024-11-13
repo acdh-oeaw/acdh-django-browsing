@@ -1,0 +1,13 @@
+<div class="pt-2 ps-5">
+  <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ class_link }}">{{ verbose_name_plural }}</a></li>
+        {% if object %}
+        <li class="breadcrumb-item active" aria-current="page">{{ object }}</li>
+        {% else %}
+        <li class="breadcrumb-item active" aria-current="page">create new {{ verbose_name }}</li>
+        {% endif %}
+      </ol>
+  </nav>
+</div>

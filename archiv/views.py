@@ -1,6 +1,11 @@
 from django.views.generic import TemplateView
 
-from browsing.utils import GenericListView, BaseDetailView
+from browsing.utils import (
+    GenericListView,
+    BaseDetailView,
+    BaseCreateView,
+    BaseUpdateView,
+)
 from archiv.models import Person, Place, Book
 from archiv.tables import BookTable
 
@@ -22,6 +27,16 @@ class PersonDetailView(BaseDetailView):
     model = Person
 
 
+class PersonCreate(BaseCreateView):
+
+    model = Person
+
+
+class PersonUpdate(BaseUpdateView):
+
+    model = Person
+
+
 class PlaceListView(GenericListView):
     model = Place
     init_columns = [
@@ -29,6 +44,16 @@ class PlaceListView(GenericListView):
         "name",
     ]
     enable_merge = False
+
+
+class PlaceCreate(BaseCreateView):
+
+    model = Place
+
+
+class PlaceUpdate(BaseUpdateView):
+
+    model = Place
 
 
 class PlaceDetailView(BaseDetailView):
@@ -48,4 +73,14 @@ class BookListView(GenericListView):
 
 
 class BookDetailView(BaseDetailView):
+    model = Book
+
+
+class BookCreate(BaseCreateView):
+
+    model = Book
+
+
+class BookUpdate(BaseUpdateView):
+
     model = Book

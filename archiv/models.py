@@ -37,8 +37,15 @@ class Place(models.Model):
     def get_listview_url(self):
         return reverse("archiv:place_list")
 
+    @classmethod
+    def get_createview_url(self):
+        return reverse("archiv:place_create")
+
     def get_absolute_url(self):
         return reverse("archiv:place_detail", kwargs={"pk": self.id})
+
+    def get_edit_url(self):
+        return reverse("archiv:place_edit", kwargs={"pk": self.id})
 
     def get_next(self):
         try:
@@ -117,8 +124,15 @@ class Person(models.Model):
     def get_listview_url(self):
         return reverse("archiv:person_list")
 
+    @classmethod
+    def get_createview_url(self):
+        return reverse("archiv:person_create")
+
     def get_absolute_url(self):
         return reverse("archiv:person_detail", kwargs={"pk": self.id})
+
+    def get_edit_url(self):
+        return reverse("archiv:person_edit", kwargs={"pk": self.id})
 
     def get_next(self):
         try:
@@ -186,8 +200,15 @@ class Book(models.Model):
     def get_listview_url(self):
         return reverse("archiv:book_list")
 
+    @classmethod
+    def get_createview_url(self):
+        return reverse("archiv:book_create")
+
     def get_absolute_url(self):
         return reverse("archiv:book_detail", kwargs={"pk": self.id})
+
+    def get_edit_url(self):
+        return reverse("archiv:book_edit", kwargs={"pk": self.id})
 
     def get_next(self):
         try:

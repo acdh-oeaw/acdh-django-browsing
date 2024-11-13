@@ -1,14 +1,13 @@
-{% extends "browsing/create_base_template.html" %}
-{% block title %}
-    Create/Edit {{ class_name }}
-{% endblock %}
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Create/Edit {{ class_name }}{% endblock %}
+{% block content %}
+{% include 'browsing/partials/create-edit_breadcrumb.html' %}
 
-{% block objectType %}
-    <h1>Create/Edit
-        {% if docstring %}
-            <abbr title="{{ docstring}}">{{ class_name }}</abbr>
-        {% else %}
-            {{ class_name }}
-        {% endif %}
-    </h1>
-{% endblock %}
+<div class="container">
+    <h1 class="text-center pt-3">{{ h1 }}</h1>
+    <div class="pt-3">
+        {% crispy form %}
+    </div>
+</div>
+{% endblock content %}
