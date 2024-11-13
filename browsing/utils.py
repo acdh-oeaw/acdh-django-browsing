@@ -27,6 +27,7 @@ class MergeColumn(django_tables2.Column):
 def get_entities_table(model_class):
     class GenericEntitiesTable(django_tables2.Table):
         id = django_tables2.LinkColumn(verbose_name="ID")
+        merge = MergeColumn(verbose_name="keep | remove", accessor="pk")
 
         class Meta:
             model = model_class
