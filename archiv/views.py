@@ -6,6 +6,7 @@ from browsing.utils import (
     BaseCreateView,
     BaseUpdateView,
 )
+from archiv.forms import PlaceForm
 from archiv.models import Person, Place, Book
 from archiv.tables import BookTable
 
@@ -49,11 +50,13 @@ class PlaceListView(GenericListView):
 class PlaceCreate(BaseCreateView):
 
     model = Place
+    form_class = PlaceForm
 
 
 class PlaceUpdate(BaseUpdateView):
 
     model = Place
+    form_class = PlaceForm
 
 
 class PlaceDetailView(BaseDetailView):

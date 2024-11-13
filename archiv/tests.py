@@ -24,7 +24,7 @@ class EntitiesTestCase(TestCase):
     def test_002_smokey(self):
         self.assertTrue(Person.objects.all())
 
-    def test_003_listviews(self):
+    def test_003_list_views(self):
         for x in MODELS:
             try:
                 url = x.get_listview_url()
@@ -34,7 +34,7 @@ class EntitiesTestCase(TestCase):
                 response = client.get(url)
                 self.assertEqual(response.status_code, 200)
 
-    def test_003_detailviews(self):
+    def test_003_detail_views(self):
         for x in MODELS:
             item = x.objects.first()
             try:
@@ -43,4 +43,25 @@ class EntitiesTestCase(TestCase):
                 url = False
             if url:
                 response = client.get(url, {"pk": item.id})
+                self.assertEqual(response.status_code, 200)
+
+    def test_004_edit_views(self):
+        for x in MODELS:
+            item = x.objects.first()
+            try:
+                url = item.get_edit_url()
+            except AttributeError:
+                url = False
+            if url:
+                response = client.get(url, {"pk": item.id})
+                self.assertEqual(response.status_code, 200)
+
+    def test_005_create_views(self):
+        for x in MODELS:
+            try:
+                url = x.get_createview_url()
+            except AttributeError:
+                url = False
+            if url:
+                response = client.get(url)
                 self.assertEqual(response.status_code, 200)
