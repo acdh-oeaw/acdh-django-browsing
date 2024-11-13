@@ -1,6 +1,4 @@
 import django_tables2
-
-from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -9,11 +7,7 @@ from crispy_forms.layout import Submit
 
 from django_tables2.export.views import ExportMixin
 
-
-if "charts" in settings.INSTALLED_APPS:
-    from charts.models import ChartConfig
-    from charts.views import create_payload
-
+from browsing.filters import get_generic_filter
 
 input_form = """
   <input type="checkbox" name="keep" value="{}" title="keep this"/> |
@@ -33,7 +27,7 @@ class MergeColumn(django_tables2.Column):
 
 def get_entities_table(model_class):
     class GenericEntitiesTable(django_tables2.Table):
-        id = django_tables2.LinkColumn()
+        id = django_tables2.LinkColumn(verbose_name="ID")
 
         class Meta:
             model = model_class
@@ -48,19 +42,29 @@ class GenericFilterFormHelper(FormHelper):
         self.helper = FormHelper()
         self.form_class = "genericFilterForm"
         self.form_method = "GET"
-        self.helper.form_tag = False
+        self.form_tag = False
         self.add_input(Submit("Filter", "Search"))
 
 
 class GenericListView(ExportMixin, django_tables2.SingleTableView):
     filter_class = None
-    formhelper_class = None
+    formhelper_class = GenericFilterFormHelper
     context_filter_name = "filter"
     paginate_by = 50
     template_name = "browsing/generic_list.html"
-    init_columns = []
+    init_columns = ["id", ]
     enable_merge = False
     excluded_cols = []
+    h1 = ""
+    create_button_text = "Create new item"
+    introduction = ""
+
+    def get_filterset_class(self):
+        if self.filter_class:
+            return self.filter_class
+        else:
+            filter_class = get_generic_filter(self.model)
+            return filter_class
 
     def get_table_class(self):
         if self.table_class:
@@ -76,7 +80,8 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
 
     def get_queryset(self, **kwargs):
         qs = super(GenericListView, self).get_queryset()
-        self.filter = self.filter_class(self.request.GET, queryset=qs)
+        filter_class = self.get_filterset_class()
+        self.filter = filter_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs.distinct()
 
@@ -99,14 +104,7 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         }
         context["togglable_colums"] = togglable_colums
         context[self.context_filter_name] = self.filter
-        context["docstring"] = "{}".format(self.model.__doc__)
-        if self.model._meta.verbose_name_plural:
-            context["class_name"] = "{}".format(self.model._meta.verbose_name.title())
-        else:
-            if self.model.__name__.endswith("s"):
-                context["class_name"] = "{}".format(self.model.__name__)
-            else:
-                context["class_name"] = "{}s".format(self.model.__name__)
+        context["docstring"] = f"{self.model.__doc__}"
         try:
             context["create_view_link"] = self.model.get_createview_url()
         except AttributeError:
@@ -114,25 +112,13 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         model_name = self.model.__name__.lower()
         context["entity"] = model_name
         context["app_name"] = self.model._meta.app_label
-        if "charts" in settings.INSTALLED_APPS:
-            model = self.model
-            app_label = model._meta.app_label
-            filtered_objs = ChartConfig.objects.filter(
-                model_name=model.__name__.lower(), app_name=app_label
-            )
-            context["vis_list"] = filtered_objs
-            context["property_name"] = self.request.GET.get("property")
-            context["charttype"] = self.request.GET.get("charttype")
-            if context["charttype"] and context["property_name"]:
-                qs = self.get_queryset()
-                chartdata = create_payload(
-                    context["entity"],
-                    context["property_name"],
-                    context["charttype"],
-                    qs,
-                    app_label=app_label,
-                )
-                context = dict(context, **chartdata)
+        if self.h1:
+            context["h1"] = self.h1
+        else:
+            context["h1"] = f"Browse {self.model._meta.verbose_name_plural}"
+        context["create_button_text"] = self.create_button_text
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
         return context
 
 
@@ -142,9 +128,11 @@ class BaseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["docstring"] = "{}".format(self.model.__doc__)
-        context["class_name"] = "{}".format(self.model.__name__)
-        context["app_name"] = "{}".format(self.model._meta.app_label)
+        context["docstring"] = f"{self.model.__doc__}"
+        context["class_name"] = f"{self.model.__name__}"
+        context["app_name"] = f"{self.model._meta.app_label}"
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
         return context
 
 
@@ -155,8 +143,8 @@ class BaseCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseCreateView, self).get_context_data()
-        context["docstring"] = "{}".format(self.model.__doc__)
-        context["class_name"] = "{}".format(self.model.__name__)
+        context["docstring"] = f"{self.model.__doc__}"
+        context["class_name"] = f"{self.model.__name__}"
         return context
 
 
@@ -167,12 +155,8 @@ class BaseUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseUpdateView, self).get_context_data()
-        context["docstring"] = "{}".format(self.model.__doc__)
-        context["class_name"] = "{}".format(self.model.__name__)
-        # if self.model.__name__.endswith('s'):
-        #     context['class_name'] = "{}".format(self.model.__name__)
-        # else:
-        #     context['class_name'] = "{}s".format(self.model.__name__)
+        context["docstring"] = f"{self.model.__doc__}"
+        context["class_name"] = f"{self.model.__name__}"
         return context
 
 

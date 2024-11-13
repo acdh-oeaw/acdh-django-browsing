@@ -6,7 +6,6 @@ register = template.Library()
 
 @register.simple_tag
 def nav_menu(app=None):
-
     """creates links to all class of the passed in application
     for which get_listview_url() methods have been registered"""
 

@@ -19,3 +19,28 @@ INSTALLED_APPS = (
     ...
 )
 ```
+
+
+## Develop
+
+### install dev-dependencies
+```bash
+pip install build pytest coverage flake8 black django
+```
+
+### install package
+```bash
+pip install .
+```
+
+### run migrations and start dev server
+```
+python manage.py migrate
+python manage.py runserver
+```
+
+### build the package
+
+```
+python -m build
+```
