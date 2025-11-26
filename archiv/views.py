@@ -29,12 +29,10 @@ class PersonDetailView(BaseDetailView):
 
 
 class PersonCreate(BaseCreateView):
-
     model = Person
 
 
 class PersonUpdate(BaseUpdateView):
-
     model = Person
 
 
@@ -48,13 +46,11 @@ class PlaceListView(GenericListView):
 
 
 class PlaceCreate(BaseCreateView):
-
     model = Place
     form_class = PlaceForm
 
 
 class PlaceUpdate(BaseUpdateView):
-
     model = Place
     form_class = PlaceForm
 
@@ -80,10 +76,8 @@ class BookDetailView(BaseDetailView):
 
 
 class BookCreate(BaseCreateView):
-
     model = Book
 
 
 class BookUpdate(BaseUpdateView):
-
     model = Book

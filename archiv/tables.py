@@ -4,7 +4,6 @@ from archiv.models import Book
 
 
 class BookTable(django_tables2.Table):
-
     name = django_tables2.LinkColumn(verbose_name="Title")
     author = django_tables2.columns.ManyToManyColumn(verbose_name="Authors")
     place_of_publication = django_tables2.columns.ManyToManyColumn(verbose_name="Place")

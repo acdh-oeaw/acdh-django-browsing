@@ -3,12 +3,12 @@
 <select class="form-control mb-3" multiple name="columns" id="column_selector">
     {% for key, value in togglable_colums.items %}
     {% if key == 'merge' and user.is_authenticated and enable_merge %}
-    <option value="{{ key }}">
+    <option value="{{ key }}" {% if key in selected_columns %}selected{% endif %}>
         {{ value }}
     </option>
     {% elif key == 'merge' and not user.is_authenticated %}
     {% elif key != 'merge' %}
-    <option value="{{ key }}">
+    <option value="{{ key }}" {% if key in selected_columns %}selected{% endif %}>
         {{ value }}
     </option>
     {% endif %}
