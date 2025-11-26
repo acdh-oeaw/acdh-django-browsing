@@ -4,7 +4,7 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "acdh-django-browsing"
-version = "3.3"
+version = "3.3.2"
 source = { editable = "." }
 dependencies = [
     { name = "crispy-bootstrap5" },
