@@ -4,9 +4,7 @@ from crispy_forms.layout import Submit
 
 
 def get_generic_form(model_class):
-
     class GenericForm(forms.ModelForm):
-
         class Meta:
             model = model_class
             fields = "__all__"

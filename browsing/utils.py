@@ -104,6 +104,7 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
             if key not in self.init_columns and key not in self.exclude_columns
         }
         context["togglable_colums"] = togglable_colums
+        context["selected_columns"] = self.request.GET.getlist("columns")
         context[self.context_filter_name] = self.filter
         context["docstring"] = f"{self.model.__doc__}"
         try:
