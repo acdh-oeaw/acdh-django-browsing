@@ -1,30 +1,26 @@
-name: Test
 
+name: Test
 on:
   push:
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
-
+  test:
+    name: Test Application
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
       matrix:
-        python-version: ["3.10", 3.11, 3.12, 3.13]
-
+        python-version:
+          - "3.11"
+          - "3.12"
+          - "3.13"
+          - "3.14"
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        coverage run manage.py test -v 2
-    - name: Create Coverage Report
-      run: coverage xml
+      - uses: actions/checkout@v6
+      - name: Install uv and set the Python version
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install the project
+        run: uv sync --dev
+      - name: Run tests
+        run: uv run coverage run manage.py test -v 2

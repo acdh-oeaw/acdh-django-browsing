@@ -24,24 +24,15 @@ INSTALLED_APPS = (
 
 
 ## Develop
-### install (dev-)dependencies
-```bash
-pip install -r requirements.txt
-```
 
 ### run migrations, load fixtures, and start dev server
 ```bash
-python manage.py migrate
-python manage.py loaddata data.json
-python manage.py runserver
+uv run python manage.py migrate
+uv run python manage.py loaddata data.json
+uv run python manage.py runserver
 ```
 
 ### run tests
 ```bash
-coverage run manage.py test -v 2
-```
-
-### build the package
-```bash
-python -m build
+uv run coverage run manage.py test -v 2
 ```
