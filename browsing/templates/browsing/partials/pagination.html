@@ -11,7 +11,7 @@
     <label for="goto">Go to page</label>
     <select class="form-control" id="goto" onchange="javascript:location.href = this.value;">
         {% for p in table.paginator.page_range %}
-            <option value="{% querystring table.prefixed_page_field=p %}">{{ p }}</option>
+            <option value="{% querystring_replace table.prefixed_page_field=p %}">{{ p }}</option>
         {% endfor %}
     </select>
 </div>
@@ -21,7 +21,7 @@
     {% if table.page.has_previous %}
         {% block pagination.previous %}
         <li class="page-item">
-            <a class="page-link" href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+            <a class="page-link" href="{% querystring_replace table.prefixed_page_field=table.page.previous_page_number %}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
             </a>
         </li>
         {% endblock pagination.previous %}
@@ -33,14 +33,14 @@
             </li>
         {% else %}
             <li class="page-item">
-                <a class="page-link" href="{% querystring table.prefixed_page_field=p %}"> {{ p }}</a>
+                <a class="page-link" href="{% querystring_replace table.prefixed_page_field=p %}"> {{ p }}</a>
             </li>
         {% endif %}
     {% endfor %}
     {% if table.page.has_next %}
         {% block pagination.next %}
         <li class="page-item">
-            <a class="page-link" href="{% querystring table.prefixed_page_field=table.page.next_page_number %}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+            <a class="page-link" href="{% querystring_replace table.prefixed_page_field=table.page.next_page_number %}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
         </li>
         {% endblock pagination.next %}
     {% endif %}
