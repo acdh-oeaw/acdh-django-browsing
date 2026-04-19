@@ -1,9 +1,8 @@
 import django_tables2
+from crispy_forms.helper import FormHelper
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from crispy_forms.helper import FormHelper
-
 from django_tables2.export.views import ExportMixin
 
 from browsing.filters import get_generic_filter
@@ -50,6 +49,8 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     formhelper_class = GenericFilterFormHelper
     context_filter_name = "filter"
     paginate_by = 50
+    page_size_label = "Page size"
+    page_size_option = [10, 25, 50, 100, 200]
     template_name = "browsing/generic_list.html"
     init_columns = [
         "id",
@@ -121,7 +122,21 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         context["create_button_text"] = self.create_button_text
         context["verbose_name"] = self.model._meta.verbose_name
         context["verbose_name_plural"] = self.model._meta.verbose_name_plural
+        context["page_size"] = self.get_paginate_by(self.get_queryset())
+        context["page_size_options"] = self.page_size_option
+        context["page_size_label"] = self.page_size_label
         return context
+
+    def get_paginate_by(self, queryset):
+        try:
+            page_size = int(self.request.GET.get("page-size", self.paginate_by))
+            if page_size > 0 and page_size < 201:
+                return page_size
+            else:
+                page_size = 20
+        except (ValueError, TypeError):
+            pass
+        return self.paginate_by
 
 
 class BaseDetailView(DetailView):
