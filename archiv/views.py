@@ -1,14 +1,14 @@
 from django.views.generic import TemplateView
 
-from browsing.utils import (
-    GenericListView,
-    BaseDetailView,
-    BaseCreateView,
-    BaseUpdateView,
-)
 from archiv.forms import PlaceForm
-from archiv.models import Person, Place, Book
+from archiv.models import Book, Person, Place
 from archiv.tables import BookTable
+from browsing.utils import (
+    BaseCreateView,
+    BaseDetailView,
+    BaseUpdateView,
+    GenericListView,
+)
 
 
 class StartView(TemplateView):
@@ -22,6 +22,8 @@ class PersonListView(GenericListView):
         "name",
     ]
     enable_merge = True
+    page_size_label = "Paginationsgröße"
+    page_size_option = [10, 11, 12, 33]
 
 
 class PersonDetailView(BaseDetailView):

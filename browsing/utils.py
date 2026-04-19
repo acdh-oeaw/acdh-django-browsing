@@ -49,6 +49,8 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     formhelper_class = GenericFilterFormHelper
     context_filter_name = "filter"
     paginate_by = 50
+    page_size_label = "Page size"
+    page_size_option = [10, 25, 50, 100, 200]
     template_name = "browsing/generic_list.html"
     init_columns = [
         "id",
@@ -121,7 +123,8 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         context["verbose_name"] = self.model._meta.verbose_name
         context["verbose_name_plural"] = self.model._meta.verbose_name_plural
         context["page_size"] = self.get_paginate_by(self.get_queryset())
-        context["page_size_options"] = [10, 25, 50, 100, 200]
+        context["page_size_options"] = self.page_size_option
+        context["page_size_label"] = self.page_size_label
         return context
 
     def get_paginate_by(self, queryset):
