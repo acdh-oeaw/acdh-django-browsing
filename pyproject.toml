@@ -11,7 +11,7 @@ license = "MIT"
 authors = [
     {name = "Peter Andorfer", email = "peter.andorfer@oeaw.ac.at"}
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 keywords = ["django"]
 dependencies = [
     "crispy-bootstrap5",
