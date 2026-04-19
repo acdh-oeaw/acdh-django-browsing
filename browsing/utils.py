@@ -120,6 +120,8 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         context["create_button_text"] = self.create_button_text
         context["verbose_name"] = self.model._meta.verbose_name
         context["verbose_name_plural"] = self.model._meta.verbose_name_plural
+        context["page_size"] = self.get_paginate_by(self.get_queryset())
+        context["page_size_options"] = [10, 25, 50, 100, 200]
         return context
 
     def get_paginate_by(self, queryset):

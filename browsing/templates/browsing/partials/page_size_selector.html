@@ -1,0 +1,6 @@
+<label class="form-label pt-3" for="page-size">Page size</label>
+<select class="form-control mb-3" name="page-size" id="page-size">
+    {% for x in page_size_options %}
+    <option value="{{ x }}" {% if x == page_size %} selected {% endif %}>{{ x }}</option>
+    {% endfor %}
+</select>
