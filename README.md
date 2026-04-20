@@ -36,3 +36,9 @@ uv run python manage.py runserver
 ```bash
 uv run coverage run manage.py test -v 2
 ```
+
+### version bump
+
+```
+uv version --bump minor
+```
