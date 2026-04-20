@@ -1,12 +1,13 @@
 {% load django_tables2 %}
 {% load i18n %}
+{% load browsing_tags %}
 
 <div>
     {% with table.page.object_list|length as count %}
         <p class="float-center">Page total: {{ count }}</p>
     {% endwith %}
 </div>
-{% if table.paginator.page_range|length > 25 %}
+{% if table.paginator.page_range|length > 25 and not pagination_windowed %}
 <div class="form-group mb-3">
     <label for="goto">Go to page</label>
     <select class="form-control" id="goto" onchange="javascript:location.href = this.value;">
@@ -26,8 +27,13 @@
         </li>
         {% endblock pagination.previous %}
     {% endif %}
-    {% for p in table.paginator.page_range %}
-        {% if p == table.page.number %}
+    {% windowed_page_range table.paginator.page_range table.page.number as pages %}
+    {% for p in pages %}
+        {% if p is None %}
+            <li class="page-item disabled">
+                <span class="page-link">&hellip;</span>
+            </li>
+        {% elif p == table.page.number %}
             <li class="page-item active" aria-current="page">
                 <a class="page-link" href="#">{{ p }}</a>
             </li>

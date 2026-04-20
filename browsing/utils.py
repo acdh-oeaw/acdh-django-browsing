@@ -60,6 +60,7 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
     h1 = ""
     create_button_text = "Create new item"
     introduction = ""
+    pagination_windowed = False
 
     def get_filterset_class(self):
         if self.filter_class:
@@ -125,6 +126,7 @@ class GenericListView(ExportMixin, django_tables2.SingleTableView):
         context["page_size"] = self.get_paginate_by(self.get_queryset())
         context["page_size_options"] = self.page_size_option
         context["page_size_label"] = self.page_size_label
+        context["pagination_windowed"] = self.pagination_windowed
         return context
 
     def get_paginate_by(self, queryset):
